@@ -22,12 +22,17 @@ function reset(){  //reset localstorage和 data陣列
    console.log(data);
     data=[];
 }
+updatelist(data);
 
 function addData(e){     //  按下看結果後，讀入身高體重並計算BMI，並將結果加入todo陣列，也更新localstorage
     e.preventDefault();  
     var height = document.querySelector('.textheight').value;
     var weight = document.querySelector('.textweight').value;
     var bminum = weight / (height/100) / (height/100) ;
+    if (height=="" || weight==""){
+        list.innerHTML="請再輸入資料";
+        return;
+    }
     bminum = bminum.toFixed(2);    //計算bmi並指取到小數點第2位
     var todo = {
         bmi : bminum,
@@ -38,8 +43,10 @@ function addData(e){     //  按下看結果後，讀入身高體重並計算BMI
     updatelist(data);         //  更新BMI記錄中的清單
     end(data);                //  將看結果更新該次
     localStorage.setItem('listdata' , JSON.stringify(data));   //更新localstorage
-};
+    document.querySelector('.textheight').value=""; //清空值
+    document.querySelector('.textweight').value="";
 
+};
 function end(items){   //看結果按鈕變身成結果
     var i = (items.length)-1;     //讀取該次陣列值
     h4.innerHTML="BMI";            //以下危險式的寫法
